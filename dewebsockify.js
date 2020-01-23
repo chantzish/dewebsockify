@@ -21,13 +21,13 @@ var server = net.createServer(function(socket) {
   });
 
   ws.on('error', function(err) {
-    console.log("Connection from", socket.address().address ,"to end-point...", err.toString());
+    console.log("Connection from", socket.myaddress ,"to end-point...", err.toString());
     socket.destroy();
   });
 
   ws.on('open', function() {
-    //socket.address = socket.address().address;
-    console.log("Connection from", socket.address().address ,"accepted");
+    socket.myaddress = socket.address().address;
+    console.log("Connection from", socket.myaddress ,"accepted");
     socket.on('data', function(data) {
       try {
         ws.send(data);
@@ -44,13 +44,13 @@ var server = net.createServer(function(socket) {
   });
 
   socket.on('end', function() {
-    console.log("Connection from", socket.address().address ,"ended");
+    console.log("Connection from", socket.myaddress ,"ended");
     ws.removeAllListeners('close');
     ws.close();
   });
 
   ws.on('close', function() {
-    console.log("Web socket server has closed connection, closing socket to", socket.address().address);
+    console.log("Web socket server has closed connection, closing socket to", socket.myaddress);
     socket.destroy();
   });
 
